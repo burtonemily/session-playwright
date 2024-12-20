@@ -155,4 +155,7 @@ export type DataTestId =
   | 'context-menu-item'
   | 'block-unblock-modal-description'
   | DMTimeOption
-  | `input-${DMTimeOption}`;
+  | `input-${DMTimeOption}`
+  | 'chooser-invite-friend'
+  | 'your-account-id'
+  | 'copy-button-account-id';

@@ -35,5 +35,7 @@
     "allure-create": "allure generate ./allure-results",
     "allure-open": "allure open ./allure-report"
   },
-  "dependencies": {}
+  "dependencies": {
+    "clipboardy": "^4.0.0"
+  }
 }

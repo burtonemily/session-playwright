@@ -17,6 +17,7 @@ import {
   waitForTestIdWithText,
 } from './utilities/utils';
 import { englishStrippedStr } from '../locale/localizedString';
+import clipboardy from 'clipboardy';
 
 // Send message in one to one conversation with new contact
 sessionTestTwoWindows('Create contact', async ([windowA, windowB]) => {
@@ -310,3 +311,31 @@ test_Alice_1W_Bob_1W(
     await sendMessage(aliceWindow1, 'Testing read receipts');
   },
 );
+
+test_Alice_1W_no_network('Invite a friend', async ({ aliceWindow1, alice }) => {
+  const clipboardy = await import('clipboardy');
+  await clickOnTestIdWithText(aliceWindow1, 'new-conversation-button');
+  await clickOnTestIdWithText(aliceWindow1, 'chooser-invite-friend');
+  await waitForTestIdWithText(aliceWindow1, 'your-account-id', alice.accountid);
+  await clickOnTestIdWithText(aliceWindow1, 'copy-button-account-id');
+  // Toast
+  await waitForTestIdWithText(
+    aliceWindow1,
+    'session-toast',
+    englishStrippedStr('copied').toString(),
+  );
+  // Wait for copy to resolve
+  await sleepFor(1000);
+  await waitForMatchingText(
+    aliceWindow1,
+    englishStrippedStr('accountIdCopied').toString(),
+  );
+  await waitForMatchingText(
+    aliceWindow1,
+    englishStrippedStr('shareAccountIdDescriptionCopied').toString(),
+  );
+  const clipboardContent = await clipboardy.default.read();
+  if (clipboardContent !== alice.accountid) {
+    throw new Error('Account id not copied correctly');
+  }
+});
