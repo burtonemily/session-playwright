@@ -1,4 +1,6 @@
 import { Page } from '@playwright/test';
+import { englishStrippedStr } from '../../locale/localizedString';
+import { sleepFor } from '../../promise_utils';
 import {
   ConversationType,
   DataTestId,
@@ -10,8 +12,8 @@ import {
   clickOnTestIdWithText,
   doWhileWithMax,
   waitForElement,
+  waitForTestIdWithText,
 } from './utils';
-import { englishStrippedStr } from '../../locale/localizedString';
 
 export const setDisappearingMessages = async (
   windowA: Page,
@@ -89,15 +91,18 @@ export const setDisappearingMessages = async (
     strategy: 'data-testid',
     selector: 'disappear-set-button',
   });
+  await waitForTestIdWithText(windowA, 'disappear-messages-type-and-time');
   if (windowB) {
     await clickOnMatchingText(
       windowB,
       englishStrippedStr('disappearingMessagesFollowSetting').toString(),
     );
+    sleepFor(1000);
     await clickOnElement({
       window: windowB,
       strategy: 'data-testid',
       selector: 'session-confirm-ok-button',
     });
+    await waitForTestIdWithText(windowB, 'disappear-messages-type-and-time');
   }
 };

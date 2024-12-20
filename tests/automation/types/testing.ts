@@ -28,7 +28,8 @@ export type DMTimeOption =
   | 'time-option-12-hours'
   | 'time-option-1-days'
   | 'time-option-7-days'
-  | 'time-option-14-days';
+  | 'time-option-14-days'
+  | 'disappear-off-option';
 
 type DisappearOpts1o1 = [
   '1:1',
@@ -158,4 +159,16 @@ export type DataTestId =
   | `input-${DMTimeOption}`
   | 'chooser-invite-friend'
   | 'your-account-id'
-  | 'copy-button-account-id';
+  | 'copy-button-account-id'
+  | 'session-error-message'
+  | DMTimeOption
+  | `input-${DMTimeOption}`
+  | 'disappear-messages-type-and-time'
+  | 'hide-recovery-password-button'
+  | 'chooser-new-community'
+  | 'join-community-conversation'
+  | 'join-community-button'
+  | 'scroll-to-bottom-button'
+  | 'decline-and-block-message-request'
+  | 'contact'
+  | 'modal-heading';
