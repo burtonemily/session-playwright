@@ -13,6 +13,7 @@ import {
   hasTextMessageBeenDeleted,
   waitForElement,
   waitForLoadingAnimationToFinish,
+  waitForTestIdWithText,
   waitForTextMessage,
 } from './utilities/utils';
 import { sendMessage } from './utilities/message';
@@ -20,8 +21,7 @@ import { sendMessage } from './utilities/message';
 // Disappearing time settings for all tests
 const timeOption: DMTimeOption = 'time-option-30-seconds';
 const disappearingMessageType = 'disappear-after-send-option';
-// Implementing in groups rebuild
-// const disappearAction = 'sent';
+const disappearAction = 'sent';
 
 mediaArray.forEach(({ mediaType, path }) => {
   test_group_Alice_1W_Bob_1W_Charlie_1W(
@@ -38,6 +38,7 @@ mediaArray.forEach(({ mediaType, path }) => {
         'group',
         disappearingMessageType,
         timeOption,
+        disappearAction,
       ]);
       // Send media
       if (mediaType === 'voice') {
@@ -51,21 +52,13 @@ mediaArray.forEach(({ mediaType, path }) => {
       ]);
       if (mediaType === 'voice') {
         await Promise.all([
-          //   waitForTestIdWithText(bobWindow1, 'audio-player'),
-          waitForElement(bobWindow1, 'class', 'rhap_progress-section'),
-          //   waitForTestIdWithText(charlieWindow1, 'audio-player'),
-          waitForElement(charlieWindow1, 'class', 'rhap_progress-section'),
+          waitForTestIdWithText(bobWindow1, 'audio-player'),
+          waitForTestIdWithText(charlieWindow1, 'audio-player'),
         ]);
         await sleepFor(30000);
         await Promise.all([
-          //   hasElementBeenDeleted(bobWindow1, 'data-testid', 'audio-player'),
-          hasElementBeenDeleted(bobWindow1, 'class', 'rhap_progress-section'),
-          //   hasElementBeenDeleted(charlieWindow1, 'data-testid', 'audio-player'),
-          hasElementBeenDeleted(
-            charlieWindow1,
-            'class',
-            'rhap_progress-section',
-          ),
+          hasElementBeenDeleted(bobWindow1, 'data-testid', 'audio-player'),
+          hasElementBeenDeleted(charlieWindow1, 'data-testid', 'audio-player'),
         ]);
       } else {
         await Promise.all([
@@ -90,6 +83,7 @@ test_group_Alice_1W_Bob_1W_Charlie_1W(
       'group',
       disappearingMessageType,
       timeOption,
+      disappearAction,
     ]);
     await sendMessage(aliceWindow1, longText);
     await Promise.all([
@@ -112,6 +106,7 @@ test_group_Alice_1W_Bob_1W_Charlie_1W(
       'group',
       disappearingMessageType,
       timeOption,
+      disappearAction,
     ]);
     await sendLinkPreview(aliceWindow1, testLink);
     await Promise.all([
